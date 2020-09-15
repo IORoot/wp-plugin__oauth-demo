@@ -22,7 +22,7 @@ require __DIR__.'/vendor/autoload.php';
 // ┌─────────────────────────────────────────────────────────────────────────┐
 // │                    Create the ANDYP_OAUTH shortcode                     │
 // └─────────────────────────────────────────────────────────────────────────┘
-require __DIR__.'/src/shortcode/button.php';
+require __DIR__.'/src/shortcode/button.php'; 
 
 // ┌─────────────────────────────────────────────────────────────────────────┐
 // │            Load the Javascript into the Admin page footer.              │
