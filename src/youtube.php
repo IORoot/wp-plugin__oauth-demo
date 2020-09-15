@@ -1,7 +1,7 @@
 <?php
 
 
-class demo_oauth
+class demo_youtube
 {
     
     private $client;
@@ -9,8 +9,6 @@ class demo_oauth
     private $service;
 
     private $results;
-
-
 
 
     public function run()
@@ -28,7 +26,11 @@ class demo_oauth
             return;
         }
 
-        if ( false === ( $this->auth_token ) ) { return; }
+        if ( false === ( $this->auth_token ) ) 
+        { 
+            $this->result = "Please authenticate first.";
+            return; 
+        }
 
         /**
          * have an OAUTH_CODE but no OAUTH_REFRESH_TOKEN.
@@ -38,6 +40,21 @@ class demo_oauth
         
     }
 
+    public function get_results()
+    {
+        return $this->results;
+    }
+
+
+
+    //  ┌─────────────────────────────────────────────────────────────────────────┐
+    //  │                                                                         │░
+    //  │                                                                         │░
+    //  │                            PRIVATE METHODS                              │░
+    //  │                                                                         │░
+    //  │                                                                         │░
+    //  └─────────────────────────────────────────────────────────────────────────┘░
+    //   ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
 
 
     /**
@@ -49,9 +66,11 @@ class demo_oauth
      */
     private function get_tokens()
     {
-        $this->auth_token = get_transient( 'YT_OAUTH_CODE' );
-        $this->refresh_token = get_transient( 'YT_OAUTH_REFRESH_TOKEN' );
+        $this->auth_token = get_transient( 'DEMO_OAUTH_CODE' );
+        $this->refresh_token = get_transient( 'DEMO_OAUTH_REFRESH_TOKEN' );
     }
+
+
 
 
     /**
@@ -93,7 +112,7 @@ class demo_oauth
 
         $this->refresh_token = $this->client->getRefreshToken();
 
-        set_transient( 'YT_OAUTH_REFRESH_TOKEN', $this->refresh_token, WEEK_IN_SECONDS );
+        set_transient( 'DEMO_OAUTH_REFRESH_TOKEN', $this->refresh_token, WEEK_IN_SECONDS );
 
     }
 
@@ -108,7 +127,7 @@ class demo_oauth
      */
     public function use_refresh_token()
     {
-        $refresh_token = get_transient( 'YT_OAUTH_REFRESH_TOKEN' );
+        $refresh_token = get_transient( 'DEMO_OAUTH_REFRESH_TOKEN' );
 
         $this->client->refreshToken($refresh_token);
 

@@ -2,8 +2,7 @@
 
 function demo_oauth_callback() {
 
-    // set_transient( 'DEMO_OAUTH_CODE', $_REQUEST['code'], 300 );
-
+    set_transient( 'DEMO_OAUTH_CODE', $_REQUEST['code'], 300 );
     
     echo "DEMO_CODE = ".$_REQUEST['code']."<br/>";
     echo "Transient set for 5 minutes.<br/>";

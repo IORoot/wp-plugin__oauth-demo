@@ -10,7 +10,6 @@ add_action( 'init',	'_decode_repsonse_state', 9 );
 * before admin-ajax.php checks for the 'action' value
 *
 */
-
 function _decode_repsonse_state(){
 
     if( !is_admin()  || !defined('DOING_AJAX') || !is_user_logged_in())
