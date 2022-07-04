@@ -1,3 +1,19 @@
+
+<div id="top"></div>
+
+<div align="center">
+
+<img src="https://svg-rewriter.sachinraja.workers.dev/?url=https%3A%2F%2Fcdn.jsdelivr.net%2Fnpm%2F%40mdi%2Fsvg%406.7.96%2Fsvg%2Fshield-account.svg&fill=%230D9488&width=200px&height=200px" style="width:200px;"/>
+
+<h3 align="center">ACF OAuth How-To.</h3>
+
+<p align="center">
+    How-to Tutorial and Demo of getting google OAUTH working with wordpress through ACF.
+</p>    
+</div>
+
+
+
 # Wordpress & Google OAuth
 
 This plugin will create a simple shortcode for a button that will open an OAUTH window to request permissions to use YouTube of the user. It utilises the Google API client library and services composer packages.
@@ -9,8 +25,29 @@ I've taken lots of concepts and ideas from https://github.com/ohfuchs/acf-oauth 
 However, in my use-case, I wanted to use the google api client library https://github.com/googleapis/google-api-php-client and it's services. Therefore I had to work out the steps of going about doing all this myself. 
 
 
+##  1. <a name='TableofContents'></a>Table of Contents
 
-## Installation
+
+* 1. [Table of Contents](#TableofContents)
+* 2. [Installation](#Installation)
+* 3. [How it works](#Howitworks)
+	* 3.1. [Step 1 - Creating an Application](#Step1-CreatinganApplication)
+	* 3.2. [Step 2 - Composer](#Step2-Composer)
+	* 3.3. [Step 3 - Shortcodes](#Step3-Shortcodes)
+	* 3.4. [Step 4 - Enqueue Javascript](#Step4-EnqueueJavascript)
+	* 3.5. [Step 5 - Javascript](#Step5-Javascript)
+	* 3.6. [Step 6 - OAuth](#Step6-OAuth)
+	* 3.7. [Step 7 - The Callback](#Step7-TheCallback)
+	* 3.8. [Step 8 - Decode state.](#Step8-Decodestate.)
+	* 3.9. [Step 9 - Refresh Tokens](#Step9-RefreshTokens)
+	* 3.10. [Step 10 - YouTube Request](#Step10-YouTubeRequest)
+	* 3.11. [Step 11 - Using a Refresh Token](#Step11-UsingaRefreshToken)
+	* 3.12. [Step 12 - Get Results](#Step12-GetResults)
+* 4. [Summary](#Summary)
+* 5. [Changelog](#Changelog)
+
+
+##  2. <a name='Installation'></a>Installation
 
 You will need to do the following steps:
 
@@ -27,13 +64,13 @@ You will need to do the following steps:
 
 
 
-## How it works
+##  3. <a name='Howitworks'></a>How it works
 
 The OAuth workflow seems to be quite a tricky and complex workflow to follow, but once you break it down into it's component parts, it's much more manageable to understand. Here are the parts:
 
 
 
-### Step 1 - Creating an Application
+###  3.1. <a name='Step1-CreatinganApplication'></a>Step 1 - Creating an Application
 
 >   Telling google you have an application and you want to give it permissions to use a specific API
 
@@ -81,7 +118,7 @@ Lastly, they know that once the user has completed granting access to their acco
 
 
 
-### Step 2 - Composer 
+###  3.2. <a name='Step2-Composer'></a>Step 2 - Composer 
 
 Composer is a package manager that automatically installs any php packages you want. In our case, we want to install the Google API client and the YouTube service that comes with it. The installation method is described on their github page here: https://github.com/googleapis/google-api-php-client
 
@@ -91,7 +128,7 @@ My `composer.json` file tells composer what to install. So, by running `composer
 
 
 
-### Step 3 - Shortcodes
+###  3.3. <a name='Step3-Shortcodes'></a>Step 3 - Shortcodes
 
 >   `/src/shortcode/button.php`
 
@@ -109,7 +146,7 @@ Add the shortcode `[andyp_oauth]` onto any page and it'll render the button and 
 
 
 
-### Step 4 - Enqueue Javascript
+###  3.4. <a name='Step4-EnqueueJavascript'></a>Step 4 - Enqueue Javascript
 
 >    `/src/js/enqueue_js.php`
 
@@ -212,7 +249,7 @@ Ok, so we've now loaded our javascript into our footer of the page, our authenti
 
 
 
-### Step 5 - Javascript
+###  3.5. <a name='Step5-Javascript'></a>Step 5 - Javascript
 
 >   `/src/js/demo_oauth.js`
 
@@ -247,7 +284,7 @@ All this does is the following:
 
 
 
-### Step 6 - OAuth
+###  3.6. <a name='Step6-OAuth'></a>Step 6 - OAuth
 
 At this point, the user will click the button and open the new window with the authentication URL as the target. They will be presented with the OAuth steps  from Google to select a user / account from YouTube and to allow access to the project.
 
@@ -257,7 +294,7 @@ This will disappear once your app has gone through the google verification proce
 
 
 
-### Step 7 - The Callback
+###  3.7. <a name='Step7-TheCallback'></a>Step 7 - The Callback
 
 >   `/src/callback/ajax_callback.php`
 
@@ -303,7 +340,7 @@ There we have it, we have the Access code in our database to use!
 
 
 
-### Step 8 - Decode state.
+###  3.8. <a name='Step8-Decodestate.'></a>Step 8 - Decode state.
 
 >   `/src/callback/decode_state.php`
 
@@ -352,7 +389,7 @@ Now we have an `action=demo_oauth_callback` in the `$_REQUEST` array that the `a
 
 
 
-### Step 9 - Refresh Tokens
+###  3.9. <a name='Step9-RefreshTokens'></a>Step 9 - Refresh Tokens
 
 >   `/src/youtube.php`
 
@@ -405,7 +442,7 @@ The `demo_youtube` class has a `run()` method that kicks everything off and init
 
     
 
-### Step 10 - YouTube Request
+###  3.10. <a name='Step10-YouTubeRequest'></a>Step 10 - YouTube Request
 
 >    `/src/youtube.php`
 
@@ -440,7 +477,7 @@ This will set the `$this->results` parameter to the result of the query.
 
 
 
-### Step 11 - Using a Refresh Token
+###  3.11. <a name='Step11-UsingaRefreshToken'></a>Step 11 - Using a Refresh Token
 
 >`/src/youtube.php`
 
@@ -460,7 +497,7 @@ public function use_refresh_token()
 
  
 
-### Step 12 - Get Results
+###  3.12. <a name='Step12-GetResults'></a>Step 12 - Get Results
 
 >   `/src/shortcode/button.php`
 
@@ -470,7 +507,7 @@ It the runs the `$this->get_results()` method to return those values, does a `js
 
 
 
-## Summary
+##  4. <a name='Summary'></a>Summary
 
 I'm actually using this as an ACF button (within a message field type) and it works quite well. I've stripped away as much as I could to make it easier to understand, but the core is there.
 
@@ -485,3 +522,6 @@ Closing notes:
 Pull requests welcome. Good luck and let the force be with you.
 
 
+##  5. <a name='Changelog'></a>Changelog
+
+v1.0.0 - Initial.
